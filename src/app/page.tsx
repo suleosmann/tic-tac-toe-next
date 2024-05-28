@@ -1,9 +1,14 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from "react";
 
+interface BlueDiv {
+  id: number;
+  value: string;
+}
+
 export default function Home() {
-  const initialBlueDivs = [
+  const initialBlueDivs: BlueDiv[] = [
     { id: 1, value: '' },
     { id: 2, value: '' },
     { id: 3, value: '' },
@@ -15,11 +20,11 @@ export default function Home() {
     { id: 9, value: '' },
   ];
 
-  const [blueDivs, setBlueDivs] = useState(initialBlueDivs);
-  const [userTurn, setUserTurn] = useState(true);
-  const [winner, setWinner] = useState(null);
+  const [blueDivs, setBlueDivs] = useState<BlueDiv[]>(initialBlueDivs);
+  const [userTurn, setUserTurn] = useState<boolean>(true);
+  const [winner, setWinner] = useState<string | null>(null);
 
-  const handleClick = (id) => {
+  const handleClick = (id: number): void => {
     if (userTurn && !winner) {
       const updatedDivs = blueDivs.map((div) =>
         div.id === id && div.value === '' ? { ...div, value: 'X' } : div
@@ -30,8 +35,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const checkWinner = () => {
-      const winningCombos = [
+    const checkWinner = (): void => {
+      const winningCombos: number[][] = [
         [1, 2, 3], [4, 5, 6], [7, 8, 9], // Rows
         [1, 4, 7], [2, 5, 8], [3, 6, 9], // Columns
         [1, 5, 9], [3, 5, 7] // Diagonals
@@ -53,7 +58,7 @@ export default function Home() {
     checkWinner();
 
     if (!userTurn && !winner) {
-      const setRandomO = () => {
+      const setRandomO = (): void => {
         const emptyDivs = blueDivs.filter((div) => div.value === '');
         if (emptyDivs.length > 0) {
           const randomIndex = Math.floor(Math.random() * emptyDivs.length);
